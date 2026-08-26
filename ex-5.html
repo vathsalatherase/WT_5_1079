@@ -2,983 +2,1102 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DOM and Events</title>
+    <title>Phone Promo Website</title>
 
-<style>
+    <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body{
-    font-family:Georgia,"Times New Roman",serif;
-    background:linear-gradient(135deg,#f8eaff,#fff0f8,#eee5ff);
-    color:#333;
-    min-height:100vh;
-}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef4ff, #ffffff, #e8f0ff);
+            color: #222;
+            min-height: 100vh;
+        }
 
-.header{
-    background:linear-gradient(135deg,#6e4b00,#8b5207,#c7a36a);
-    color:white;
-    text-align:center;
-    padding:35px 20px;
-    box-shadow:0 5px 20px rgba(100, 77, 0, 0.563);
-    border-bottom-left-radius:30px;
-    border-bottom-right-radius:30px;
-}
+        /* HEADER */
 
-.header h1{
-    font-size:45px;
-    letter-spacing:6px;
-    font-style:italic;
-    text-shadow:3px 3px 6px #24002f;
-    margin-bottom:10px;
-}
+        .header {
+            background: linear-gradient(135deg, #06152e, #123c7a, #1976d2);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
 
-.header p{
-    font-size:20px;
-    letter-spacing:2px;
-}
+        .header h1 {
+            font-size: 45px;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+        }
 
-.container{
-    width:92%;
-    max-width:1000px;
-    margin:30px auto;
-}
+        .header p {
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
 
-.box{
-    background:rgba(255,255,255,0.96);
-    padding:28px;
-    margin:28px 0;
-    border-radius:20px;
-    border-left:7px solid #8b5b07;
-    box-shadow:0 8px 25px rgba(100, 68, 0, 0.26);
-    transition:0.3s;
-}
+        /* NAVIGATION */
 
-.box:hover{
-    transform:translateY(-4px);
-    box-shadow:0 12px 30px rgba(100, 62, 0, 0.62);
-}
+        nav {
+            background: #081b36;
+            text-align: center;
+            padding: 15px;
+        }
 
-.box h2{
-    color:#694609;
-    font-size:27px;
-    margin-bottom:15px;
-    padding-bottom:10px;
-    border-bottom:2px solid #e0caa6;
-}
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 18px;
+            font-weight: bold;
+        }
 
-.box h3{
-    color:#8b4b07;
-    margin:15px 0;
-}
+        nav a:hover {
+            color: #4da6ff;
+        }
 
-.box p{
-    font-size:17px;
-    line-height:28px;
-}
+        /* CONTAINER */
 
-input,
-select{
-    padding:11px 14px;
-    margin:7px 4px;
-    border:2px solid #d08c3e;
-    border-radius:8px;
-    font-size:15px;
-    font-family:Georgia,serif;
-    outline:none;
-}
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
 
-input:focus,
-select:focus{
-    border-color:#d0630b;
-    box-shadow:0 0 8px rgba(214, 105, 9, 0.3);
-}
+        /* BOX */
 
-button{
-    background:linear-gradient(135deg,#693909,#b07d3a);
-    color:white;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
-    padding:12px 22px;
-    margin:8px 4px;
-    border-radius:8px;
-    font-size:15px;
-    box-shadow:0 4px 10px rgba(105, 63, 9, 0.3);
-}
+        .box {
+            background: rgba(255,255,255,0.97);
+            padding: 28px;
+            margin: 28px 0;
+            border-radius: 20px;
+            border-left: 7px solid #1976d2;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: 0.3s;
+        }
 
-button:hover{
-    background:linear-gradient(135deg,#bb6f05,#8b5807);
-    transform:scale(1.04);
-}
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
 
-.result{
-    background:linear-gradient(135deg,#fff0fc,#fff4e5);
-    border:2px solid #d5c29b;
-    padding:18px;
-    margin-top:18px;
-    border-radius:12px;
-    color:#643405;
-    font-size:17px;
-    line-height:28px;
-}
+        .box h2 {
+            color: #0d47a1;
+            font-size: 28px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d5e5ff;
+        }
 
-fieldset{
-    border:2px solid #c7976a;
-    border-radius:12px;
-    padding:20px;
-    background:#fffaff;
-}
+        .box h3 {
+            color: #1565c0;
+            margin: 15px 0;
+        }
 
-.garden{
-    margin-top:20px;
-    padding:20px;
-    min-height:120px;
-    background:linear-gradient(135deg,#fff8ed,#f4ffe9);
-    border:3px dashed #c79f6a;
-    border-radius:15px;
-    text-align:center;
-}
+        .box p {
+            font-size: 17px;
+            line-height: 28px;
+        }
 
-.garden img{
-    width:100px;
-    height:100px;
-    object-fit:cover;
-    border-radius:15px;
-    margin:5px;
-    border:4px solid white;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
+        /* HERO */
 
-#coin{
-    width:170px;
-    height:170px;
-    object-fit:cover;
-    border-radius:50%;
-    border:8px solid #d6bca3;
-    box-shadow:0 8px 20px rgba(100, 58, 0, 0.3);
-    margin:15px;
-}
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            background: linear-gradient(135deg, #071b36, #1259a5);
+            color: white;
+            padding: 45px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
 
-.center{
-    text-align:center;
-}
+        .hero-text {
+            flex: 1;
+        }
 
-footer{
-    background:linear-gradient(135deg,#6e3b00,#8b5407,#c79c6a);
-    color:white;
-    text-align:center;
-    padding:30px;
-    margin-top:40px;
-    border-top-left-radius:30px;
-    border-top-right-radius:30px;
-}
+        .hero-text h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
 
-footer h3{
-    font-size:22px;
-    margin-bottom:10px;
-}
+        .hero-text p {
+            font-size: 19px;
+            line-height: 30px;
+            margin-bottom: 20px;
+        }
 
-@media(max-width:768px){
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
 
-    .header h1{
-        font-size:32px;
-    }
+        .hero-image img {
+            width: 250px;
+            max-width: 100%;
+            border-radius: 25px;
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.4));
+        }
 
-    .container{
-        width:95%;
-    }
+        /* BUTTON */
 
-    .box{
-        padding:20px;
-    }
+        button {
+            background: linear-gradient(135deg, #1565c0, #2196f3);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 13px 24px;
+            margin: 8px 4px;
+            border-radius: 8px;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
 
-    input,
-    select{
-        width:95%;
-        margin:7px 0;
-    }
+        button:hover {
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            transform: scale(1.05);
+        }
 
-    #coin{
-        width:140px;
-        height:140px;
-    }
-}
+        /* PHONE CARDS */
 
-</style>
+        .phones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .phone-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        .phone-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .phone-card img {
+            width: 170px;
+            height: 220px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .phone-card h3 {
+            color: #0d47a1;
+            font-size: 22px;
+        }
+
+        .price {
+            font-size: 23px;
+            font-weight: bold;
+            color: #1565c0;
+            margin: 10px;
+        }
+
+        .specs {
+            text-align: left;
+            margin: 15px 0;
+            line-height: 27px;
+        }
+
+        /* INPUTS */
+
+        input,
+        select {
+            padding: 11px 14px;
+            margin: 7px 4px;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 8px rgba(25,118,210,0.3);
+        }
+
+        fieldset {
+            border: 2px solid #90caf9;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f7fbff;
+        }
+
+        /* RESULT */
+
+        .result {
+            background: linear-gradient(135deg, #edf6ff, #ffffff);
+            border: 2px solid #bbdefb;
+            padding: 18px;
+            margin-top: 18px;
+            border-radius: 12px;
+            color: #0d47a1;
+            font-size: 17px;
+            line-height: 28px;
+        }
+
+        /* PHONE DISPLAY */
+
+        .phone-display {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .phone-display img {
+            width: 230px;
+            height: 300px;
+            object-fit: contain;
+            transition: 0.4s;
+        }
+
+        /* OFFERS */
+
+        .offer {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid #bbdefb;
+        }
+
+        .offer strong {
+            color: #0d47a1;
+            font-size: 20px;
+        }
+
+        /* CENTER */
+
+        .center {
+            text-align: center;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: linear-gradient(135deg, #06152e, #123c7a, #1976d2);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+
+        footer h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 768px) {
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding: 30px;
+                text-align: center;
+            }
+
+            .hero-text h2 {
+                font-size: 30px;
+            }
+
+            .phones {
+                grid-template-columns: 1fr;
+            }
+
+            input,
+            select {
+                width: 95%;
+                margin: 7px 0;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 7px;
+            }
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<div class="header">
+    <!-- HEADER -->
 
-    <h1>JAVASCRIPT</h1>
+    <div class="header">
 
-    <p>DOM Elements and Events</p>
+        <h1>📱 PHONEZONE</h1>
 
-</div>
+        <p>Latest Smartphones • Best Prices • Amazing Offers</p>
 
+    </div>
 
-<div class="container">
 
+    <!-- NAVIGATION -->
 
-<!-- ================= 1. SHORTEST AND LONGEST ================= -->
+    <nav>
 
-<div class="box">
+        <a href="#home">Home</a>
 
-<h2>📝 Shortest and Longest Word</h2>
+        <a href="#phones">Phones</a>
 
-<p>
-Enter a sentence to find the shortest and longest word.
-</p>
+        <a href="#offers">Offers</a>
 
-<br>
+        <a href="#compare">Compare</a>
 
-<input
-type="text"
-id="sentence"
-placeholder="Enter a sentence"
-size="50"
->
+        <a href="#buy">Buy Now</a>
 
-<button onclick="findWords()">
-Find Words
-</button>
+    </nav>
 
-<div class="result" id="wordResult">
 
-Result will appear here.
+    <div class="container">
 
-</div>
 
-</div>
+        <!-- ================= HERO ================= -->
 
+        <div class="hero" id="home">
 
-<!-- ================= 2. BMI ================= -->
+            <div class="hero-text">
 
-<div class="box">
+                <h2>Experience the Future</h2>
 
-<h2>⚖️ BMI Calculator</h2>
+                <p>
+                    Discover powerful smartphones with amazing
+                    cameras, fast processors, beautiful displays
+                    and long-lasting batteries.
+                </p>
 
-<h3>
-Calculate your Body Mass Index (BMI)!
-</h3>
+                <button onclick="showOffer()">
+                    🔥 View Today's Offer
+                </button>
 
-<fieldset>
+                <div id="offerMessage"></div>
 
-<label>
-Weight (in kilograms):
-</label>
+            </div>
 
-<input
-type="text"
-id="weight"
-placeholder="Weight"
->
 
-<br>
+            <div class="hero-image">
 
-<label>
-Height (in meters):
-</label>
+                <img src="phone1.jpg" alt="Featured Phone">
 
-<input
-type="text"
-id="height"
-placeholder="Height"
->
+            </div>
 
-<br>
+        </div>
 
-<button onclick="calculate()">
-Calculate BMI
-</button>
 
-</fieldset>
+        <!-- ================= PHONE MODELS ================= -->
 
-<div class="result">
+        <div class="box" id="phones">
 
-Your BMI is:
+            <h2>📱 Featured Smartphones</h2>
 
-<b>
-<span id="score"></span>
-</b>
+            <p>
+                Choose from our latest smartphone collection.
+            </p>
 
-<br><br>
+            <br>
 
-Your body type is:
 
-<b>
-<span id="type"></span>
-</b>
+            <div class="phones">
 
-</div>
 
-</div>
+                <!-- PHONE 1 -->
 
+                <div class="phone-card">
 
-<!-- ================= 3. FRUIT FARM ================= -->
+                    <img src="phone1.jpg" alt="Phone 1">
 
-<div class="box">
+                    <h3>Phone X Pro</h3>
 
-<h2>🍎 Fruit Farm</h2>
+                    <div class="price">
+                        ₹69,999
+                    </div>
 
-<h3>
-Design Your Fruit Farm
-</h3>
+                    <div class="specs">
 
-<label>
-Rows:
-</label>
+                        📱 6.7" AMOLED Display<br>
 
-<input
-type="number"
-id="rows"
-placeholder="Rows"
-min="1"
->
+                        📸 108MP Camera<br>
 
-<br>
+                        ⚡ 12GB RAM<br>
 
-<label>
-Columns:
-</label>
+                        💾 256GB Storage<br>
 
-<input
-type="number"
-id="columns"
-placeholder="Columns"
-min="1"
->
+                        🔋 5000mAh Battery
 
-<br>
+                    </div>
 
-<button onclick="grow()">
-🌱 Plant Garden
-</button>
+                    <button onclick="selectPhone('Phone X Pro',69999)">
+                        Buy Now
+                    </button>
 
-<div
-id="garden"
-class="garden"
->
+                </div>
 
-Your fruit garden will appear here.
 
-</div>
+                <!-- PHONE 2 -->
 
-</div>
+                <div class="phone-card">
 
+                    <img src="phone2.jpg" alt="Phone 2">
 
-<!-- ================= 4. CURRENCY ================= -->
+                    <h3>Phone Ultra</h3>
 
-<div class="box">
+                    <div class="price">
+                        ₹59,999
+                    </div>
 
-<h2>💱 Currency Converter</h2>
+                    <div class="specs">
 
-<fieldset>
+                        📱 6.5" OLED Display<br>
 
-<label>
-Convert
-</label>
+                        📸 64MP Camera<br>
 
-<input
-type="number"
-id="data"
-placeholder="Enter amount"
->
+                        ⚡ 8GB RAM<br>
 
-<select id="from">
+                        💾 128GB Storage<br>
 
-<option value="Indian Rupee">
-Indian Rupee
-</option>
+                        🔋 4800mAh Battery
 
-<option value="US Dollar">
-US Dollar
-</option>
+                    </div>
 
-</select>
+                    <button onclick="selectPhone('Phone Ultra',59999)">
+                        Buy Now
+                    </button>
 
-<label>
-to
-</label>
+                </div>
 
-<select id="to">
 
-<option value="US Dollar">
-US Dollar
-</option>
+                <!-- PHONE 3 -->
 
-<option value="Indian Rupee">
-Indian Rupee
-</option>
+                <div class="phone-card">
 
-</select>
+                    <img src="phone3.jpg" alt="Phone 3">
 
-<br>
+                    <h3>Phone Max</h3>
 
-<button onclick="convert()">
-Calculate
-</button>
+                    <div class="price">
+                        ₹44,999
+                    </div>
 
-</fieldset>
+                    <div class="specs">
 
-<div class="result">
+                        📱 6.6" AMOLED Display<br>
 
-Answer:
+                        📸 50MP Camera<br>
 
-<b>
-<span id="answer"></span>
-</b>
+                        ⚡ 8GB RAM<br>
 
-</div>
+                        💾 128GB Storage<br>
 
-</div>
+                        🔋 4500mAh Battery
 
+                    </div>
 
-<!-- ================= 5. COIN FLIP ================= -->
+                    <button onclick="selectPhone('Phone Max',44999)">
+                        Buy Now
+                    </button>
 
-<div class="box">
+                </div>
 
-<h2>🪙 Coin Flip</h2>
 
-<h3>
-Heads or Tails?
-</h3>
+            </div>
 
-<div class="center">
+        </div>
 
-<img
-src="heads.jpg"
-id="coin"
-alt="Coin"
->
 
-<br>
+        <!-- ================= SPECIAL OFFERS ================= -->
 
-<button id="flip">
-🔄 Flip!
-</button>
+        <div class="box" id="offers">
 
-</div>
+            <h2>🔥 Special Phone Offers</h2>
 
-<div class="result">
+            <div class="offer">
 
-Heads Total:
+                <strong>🎁 Exchange Offer</strong>
 
-<b>
-<span id="num_heads">0</span>
-</b>
+                <p>
+                    Get up to ₹15,000 discount when you exchange
+                    your old smartphone.
+                </p>
 
-<br><br>
+            </div>
 
-Tails Total:
 
-<b>
-<span id="num_tails">0</span>
-</b>
+            <div class="offer">
 
-</div>
+                <strong>💳 Bank Discount</strong>
 
-</div>
+                <p>
+                    Get an instant ₹3,000 discount using selected
+                    bank cards.
+                </p>
 
+            </div>
 
-<!-- ================= 6. CAKE ORDER ================= -->
 
-<div class="box">
+            <div class="offer">
 
-<h2>🎂 Birthday Cake Order Form</h2>
+                <strong>🚚 Free Delivery</strong>
 
-<h3>
-Calculate Your Cake Order
-</h3>
+                <p>
+                    Free doorstep delivery on all smartphone orders.
+                </p>
 
-<fieldset>
+            </div>
 
-<label>
-# of 1/2kg Cakes:
-</label>
+        </div>
 
-<input
-type="number"
-id="small"
-placeholder="0"
-min="0"
->
 
-<br>
+        <!-- ================= PHONE CUSTOMIZER ================= -->
 
-<label>
-# of 1kg Cakes:
-</label>
+        <div class="box">
 
-<input
-type="number"
-id="medium"
-placeholder="0"
-min="0"
->
+            <h2>🎨 Customize Your Phone</h2>
 
-<br>
+            <h3>Select Your Phone</h3>
 
-<label>
-# of 2kg Cakes:
-</label>
+            <select id="phoneModel" onchange="changePhone()">
 
-<input
-type="number"
-id="large"
-placeholder="0"
-min="0"
->
+                <option value="phone1.jpg">
+                    Phone X Pro
+                </option>
 
-<br><br>
+                <option value="phone2.jpg">
+                    Phone Ultra
+                </option>
 
-<b>Tip:</b>
+                <option value="phone3.jpg">
+                    Phone Max
+                </option>
 
-<label>
+            </select>
 
-<input
-type="radio"
-value="10"
-name="tip"
->
 
-10%
+            <h3>Select Colour</h3>
 
-</label>
+            <select id="phoneColor">
 
-<label>
+                <option>Midnight Black</option>
 
-<input
-type="radio"
-value="15"
-name="tip"
-checked
->
+                <option>Ocean Blue</option>
 
-15%
+                <option>Silver</option>
 
-</label>
+                <option>Rose Gold</option>
 
-<label>
+            </select>
 
-<input
-type="radio"
-value="20"
-name="tip"
->
 
-20%
+            <div class="phone-display">
 
-</label>
+                <img
+                    src="phone1.jpg"
+                    id="displayPhone"
+                    alt="Selected Phone"
+                >
 
-<br><br>
+            </div>
 
-<button id="submit">
-🧾 Calculate Order
-</button>
+        </div>
 
-</fieldset>
 
-<div class="result">
+        <!-- ================= COMPARE ================= -->
 
-Cost of order:
+        <div class="box" id="compare">
 
-<b>
-₹<span id="price"></span>
-</b>
+            <h2>⚡ Compare Phones</h2>
 
-</div>
+            <fieldset>
 
-</div>
+                <label>
+                    Select First Phone:
+                </label>
 
-</div>
+                <select id="phoneA">
 
+                    <option value="69999">
+                        Phone X Pro
+                    </option>
 
-<footer>
+                    <option value="59999">
+                        Phone Ultra
+                    </option>
 
-<h3>
-JavaScript – DOM Elements and Events
-</h3>
+                    <option value="44999">
+                        Phone Max
+                    </option>
 
-<p>
-Web Technology Lab
-</p>
+                </select>
 
-<p>
-© 2026
-</p>
+                <br>
 
-</footer>
 
+                <label>
+                    Select Second Phone:
+                </label>
 
-<!-- ================= JAVASCRIPT ================= -->
+                <select id="phoneB">
 
-<script>
+                    <option value="59999">
+                        Phone Ultra
+                    </option>
 
-/* 1. SHORTEST AND LONGEST WORD */
+                    <option value="69999">
+                        Phone X Pro
+                    </option>
 
-function findWords(){
+                    <option value="44999">
+                        Phone Max
+                    </option>
 
-    var sentence =
-    document.getElementById("sentence").value.trim();
+                </select>
 
-    if(sentence === ""){
+                <br>
 
-        document.getElementById("wordResult").innerHTML =
-        "Please enter a sentence.";
+                <button onclick="comparePhones()">
+                    🔍 Compare Prices
+                </button>
 
-        return;
-    }
+            </fieldset>
 
-    var words =
-    sentence.split(/\s+/);
 
-    var shortest =
-    words[0];
+            <div class="result">
 
-    var longest =
-    words[0];
+                <span id="compareResult">
+                    Select two phones to compare.
+                </span>
 
-    for(var i=1;i<words.length;i++){
+            </div>
 
-        if(words[i].length < shortest.length){
+        </div>
 
-            shortest =
-            words[i];
+
+        <!-- ================= PRICE CALCULATOR ================= -->
+
+        <div class="box" id="buy">
+
+            <h2>🛒 Phone Price Calculator</h2>
+
+            <h3>
+                Calculate Your Final Price
+            </h3>
+
+            <fieldset>
+
+                <label>
+                    Phone Price:
+                </label>
+
+                <input
+                    type="number"
+                    id="phonePrice"
+                    placeholder="Enter phone price"
+                >
+
+                <br>
+
+
+                <label>
+                    Exchange Discount:
+                </label>
+
+                <input
+                    type="number"
+                    id="discount"
+                    placeholder="Discount"
+                    value="0"
+                >
+
+                <br>
+
+
+                <label>
+                    Quantity:
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    placeholder="Quantity"
+                    value="1"
+                    min="1"
+                >
+
+                <br>
+
+
+                <button onclick="calculatePrice()">
+                    💰 Calculate Final Price
+                </button>
+
+            </fieldset>
+
+
+            <div class="result">
+
+                Final Price:
+
+                <b>
+                    ₹<span id="finalPrice">0</span>
+                </b>
+
+                <br><br>
+
+                You Save:
+
+                <b>
+                    ₹<span id="savedAmount">0</span>
+                </b>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ORDER ================= -->
+
+        <div class="box">
+
+            <h2>📦 Order Your Smartphone</h2>
+
+            <fieldset>
+
+                <label>
+                    Customer Name:
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Enter your name"
+                >
+
+                <br>
+
+
+                <label>
+                    Selected Phone:
+                </label>
+
+                <input
+                    type="text"
+                    id="selectedPhone"
+                    placeholder="Select a phone above"
+                    readonly
+                >
+
+                <br>
+
+
+                <button onclick="placeOrder()">
+                    ✅ Place Order
+                </button>
+
+            </fieldset>
+
+
+            <div class="result">
+
+                <span id="orderResult">
+                    Your order details will appear here.
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h3>
+            📱 PHONEZONE
+        </h3>
+
+        <p>
+            Your destination for the latest smartphones.
+        </p>
+
+        <p>
+            © 2026 PhoneZone | All Rights Reserved
+        </p>
+
+    </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+
+        /* ================= 1. TODAY'S OFFER ================= */
+
+        function showOffer() {
+
+            document.getElementById("offerMessage").innerHTML =
+
+                `
+                <div class="result">
+                    🔥 <b>Today's Special Offer!</b><br>
+                    Get up to ₹15,000 exchange discount
+                    + ₹3,000 bank discount.
+                </div>
+                `;
+
         }
 
-        if(words[i].length > longest.length){
 
-            longest =
-            words[i];
+
+        /* ================= 2. SELECT PHONE ================= */
+
+        function selectPhone(name, price) {
+
+            document.getElementById("selectedPhone").value =
+                name;
+
+            document.getElementById("phonePrice").value =
+                price;
+
+            document.getElementById("quantity").value = 1;
+
+            window.scrollTo({
+                top: document.getElementById("buy").offsetTop,
+                behavior: "smooth"
+            });
+
         }
-    }
-
-    document.getElementById("wordResult").innerHTML =
-    "Shortest: <b>'" +
-    shortest +
-    "'</b><br>Longest: <b>'" +
-    longest +
-    "'</b>";
-}
 
 
-/* 2. BMI CALCULATOR */
 
-function calculate(){
+        /* ================= 3. CHANGE PHONE IMAGE ================= */
 
-    var weight =
-    parseFloat(
-    document.getElementById("weight").value
-    );
+        function changePhone() {
 
-    var height =
-    parseFloat(
-    document.getElementById("height").value
-    );
+            var phone =
+                document.getElementById("phoneModel").value;
 
-    if(
-    isNaN(weight) ||
-    isNaN(height) ||
-    height <= 0
-    ){
+            document.getElementById("displayPhone").src =
+                phone;
 
-        document.getElementById("score").innerHTML =
-        "Invalid input";
-
-        document.getElementById("type").innerHTML =
-        "Please enter valid values";
-
-        return;
-    }
-
-    var bmi =
-    weight / (height * height);
-
-    bmi =
-    bmi.toFixed(2);
-
-    document.getElementById("score").innerHTML =
-    bmi;
-
-    var type;
-
-    if(bmi < 18){
-
-        type =
-        "Underweight";
-
-    }
-
-    else if(bmi >= 18 && bmi <= 25){
-
-        type =
-        "Normal";
-
-    }
-
-    else if(bmi > 25 && bmi <= 30){
-
-        type =
-        "Overweight";
-
-    }
-
-    else{
-
-        type =
-        "Obese";
-    }
-
-    document.getElementById("type").innerHTML =
-    type;
-}
+        }
 
 
-/* 3. FRUIT FARM */
 
-function grow(){
+        /* ================= 4. COMPARE PHONES ================= */
 
-    var rows =
-    parseInt(
-    document.getElementById("rows").value
-    );
+        function comparePhones() {
 
-    var columns =
-    parseInt(
-    document.getElementById("columns").value
-    );
+            var priceA =
+                parseInt(
+                    document.getElementById("phoneA").value
+                );
 
-    var garden =
-    document.getElementById("garden");
+            var priceB =
+                parseInt(
+                    document.getElementById("phoneB").value
+                );
 
-    if(
-    isNaN(rows) ||
-    isNaN(columns) ||
-    rows <= 0 ||
-    columns <= 0
-    ){
 
-        garden.innerHTML =
-        "Please enter valid rows and columns.";
+            var result;
 
-        return;
-    }
 
-    garden.innerHTML = "";
+            if (priceA > priceB) {
 
-    var arr = [
-        "Apple.jpg",
-        "Orange.webp"
-    ];
+                result =
+                    "The first selected phone is ₹" +
+                    (priceA - priceB) +
+                    " more expensive.";
 
-    for(var i=0;i<rows;i++){
+            }
 
-        for(var j=0;j<columns;j++){
+            else if (priceB > priceA) {
 
-            var number =
-            Math.floor(
-            Math.random() * arr.length
+                result =
+                    "The second selected phone is ₹" +
+                    (priceB - priceA) +
+                    " more expensive.";
+
+            }
+
+            else {
+
+                result =
+                    "Both phones have the same price.";
+
+            }
+
+
+            document.getElementById("compareResult").innerHTML =
+                result;
+
+        }
+
+
+
+        /* ================= 5. PRICE CALCULATOR ================= */
+
+        function calculatePrice() {
+
+            var price =
+                parseFloat(
+                    document.getElementById("phonePrice").value
+                );
+
+
+            var discount =
+                parseFloat(
+                    document.getElementById("discount").value
+                ) || 0;
+
+
+            var quantity =
+                parseInt(
+                    document.getElementById("quantity").value
+                ) || 1;
+
+
+            if (isNaN(price) || price <= 0) {
+
+                document.getElementById("finalPrice").innerHTML =
+                    "Invalid";
+
+                document.getElementById("savedAmount").innerHTML =
+                    "0";
+
+                return;
+
+            }
+
+
+            var total =
+                price * quantity;
+
+
+            var discountAmount =
+                discount * quantity;
+
+
+            var finalPrice =
+                total - discountAmount;
+
+
+            if (finalPrice < 0) {
+
+                finalPrice = 0;
+
+            }
+
+
+            document.getElementById("finalPrice").innerHTML =
+                finalPrice.toFixed(2);
+
+
+            document.getElementById("savedAmount").innerHTML =
+                discountAmount.toFixed(2);
+
+        }
+
+
+
+        /* ================= 6. PLACE ORDER ================= */
+
+        function placeOrder() {
+
+            var name =
+                document.getElementById("customerName").value.trim();
+
+
+            var phone =
+                document.getElementById("selectedPhone").value;
+
+
+            if (name === "" || phone === "") {
+
+                document.getElementById("orderResult").innerHTML =
+                    "⚠️ Please enter your name and select a phone.";
+
+                return;
+
+            }
+
+
+            document.getElementById("orderResult").innerHTML =
+
+                "✅ Thank you, <b>" +
+                name +
+                "</b>!<br><br>" +
+
+                "Your selected phone is: <b>" +
+                phone +
+                "</b><br><br>" +
+
+                "🎉 Your order has been successfully placed!";
+
+        }
+
+
+
+        /* ================= 7. PHONE IMAGE EVENT ================= */
+
+        document
+            .getElementById("displayPhone")
+            .addEventListener(
+                "click",
+                function () {
+
+                    this.style.transform =
+                        "scale(1.15)";
+
+                    setTimeout(
+                        function () {
+
+                            document.getElementById(
+                                "displayPhone"
+                            ).style.transform =
+                                "scale(1)";
+
+                        },
+                        500
+                    );
+
+                }
             );
 
-            var image =
-            document.createElement("img");
 
-            image.src =
-            arr[number];
-
-            image.alt =
-            "Fruit";
-
-            garden.appendChild(image);
-        }
-
-        garden.appendChild(
-        document.createElement("br")
-        );
-    }
-}
-
-
-/* 4. CURRENCY CONVERTER */
-
-function convert(){
-
-    var data =
-    parseFloat(
-    document.getElementById("data").value
-    );
-
-    var from =
-    document.getElementById("from").value;
-
-    var to =
-    document.getElementById("to").value;
-
-    if(isNaN(data)){
-
-        document.getElementById("answer").innerHTML =
-        "Please enter a valid amount.";
-
-        return;
-    }
-
-    var result;
-
-    if(
-    from === "Indian Rupee" &&
-    to === "US Dollar"
-    ){
-
-        result =
-        data * 0.015;
-
-        document.getElementById("answer").innerHTML =
-        result.toFixed(2) +
-        " US Dollar";
-    }
-
-    else if(
-    from === "US Dollar" &&
-    to === "Indian Rupee"
-    ){
-
-        result =
-        data * 67.12;
-
-        document.getElementById("answer").innerHTML =
-        result.toFixed(2) +
-        " Indian Rupee";
-    }
-
-    else{
-
-        document.getElementById("answer").innerHTML =
-        data.toFixed(2) +
-        " " +
-        from;
-    }
-}
-
-
-/* 5. COIN FLIP */
-
-var heads = 0;
-var tails = 0;
-
-document
-.getElementById("flip")
-.addEventListener(
-"click",
-flipFunction
-);
-
-function flipFunction(){
-
-    var number =
-    Math.floor(
-    Math.random() * 2
-    );
-
-    if(number === 0){
-
-        document.getElementById("coin").src =
-        "heads.jpg";
-
-        heads++;
-    }
-
-    else{
-
-        document.getElementById("coin").src =
-        "tails.jpg";
-
-        tails++;
-    }
-
-    document.getElementById("num_heads").innerHTML =
-    heads;
-
-    document.getElementById("num_tails").innerHTML =
-    tails;
-}
-
-
-/* 6. BIRTHDAY CAKE ORDER */
-
-document
-.getElementById("submit")
-.addEventListener(
-"click",
-calculateOrder
-);
-
-function calculateOrder(){
-
-    var small =
-    parseInt(
-    document.getElementById("small").value
-    ) || 0;
-
-    var medium =
-    parseInt(
-    document.getElementById("medium").value
-    ) || 0;
-
-    var large =
-    parseInt(
-    document.getElementById("large").value
-    ) || 0;
-
-    var tip =
-    parseInt(
-    document.querySelector(
-    'input[name="tip"]:checked'
-    ).value
-    );
-
-    var smallCost =
-    small * 100;
-
-    var mediumCost =
-    medium * 200;
-
-    var largeCost =
-    large * 400;
-
-    var subtotal =
-    smallCost +
-    mediumCost +
-    largeCost;
-
-    var tax =
-    subtotal * 0.09;
-
-    var totalAfterTax =
-    subtotal + tax;
-
-    var tipAmount =
-    totalAfterTax *
-    (tip / 100);
-
-    var total =
-    totalAfterTax +
-    tipAmount;
-
-    document.getElementById("price").innerHTML =
-    total.toFixed(2);
-}
-
-</script>
+    </script>
 
 </body>
+
 </html>
